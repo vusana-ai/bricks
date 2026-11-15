@@ -128,25 +128,21 @@
               </span>
             </div>
             <div class="text-lg sm:text-xl font-black text-cyan-400 tracking-tight mt-0.5" id="scoreDisplay">점수: 0 점</div>
-            <div class="text-[10px] text-slate-400 truncate" id="scoreSubText">벽돌을 깨고 골드를 획득하세요!</div>
+            <div class="text-[10px] text-slate-400 truncate" id="scoreSubText">벽돌을 깨고 아이템을 획득하세요!</div>
           </div>
           <button id="startGameBtn" type="button" class="shrink-0 px-3.5 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 shadow-md transition active:scale-95 cursor-pointer">
             게임 시작
           </button>
         </div>
 
-        <div class="sm:col-span-7 grid grid-cols-3 gap-2">
+        <div class="sm:col-span-7 grid grid-cols-2 gap-2">
           <div class="bg-slate-950/80 border border-slate-800/90 rounded-xl px-3 py-2 flex flex-col justify-center">
             <div class="text-[11px] text-slate-400 font-medium">남은 목숨</div>
             <div class="text-xs sm:text-sm font-bold text-rose-400 truncate mt-0.5" id="livesDisplay">❤️❤️❤️</div>
           </div>
           <div class="bg-slate-950/80 border border-slate-800/90 rounded-xl px-3 py-2 flex flex-col justify-center">
-            <div class="text-[11px] text-slate-400 font-medium">공 파워</div>
-            <div class="text-xs sm:text-sm font-extrabold text-amber-400 mt-0.5" id="powerDisplay">Lv.1 (기본)</div>
-          </div>
-          <div class="bg-slate-950/80 border border-slate-800/90 rounded-xl px-3 py-2 flex flex-col justify-center">
-            <div class="text-[11px] text-slate-400 font-medium">패들 길이</div>
-            <div class="text-xs sm:text-sm font-bold text-emerald-300 truncate mt-0.5" id="paddleDisplay">기본형</div>
+            <div class="text-[11px] text-slate-400 font-medium">게임 시간</div>
+            <div class="text-xs sm:text-sm font-extrabold text-emerald-300 mt-0.5" id="timeDisplay">00:00</div>
           </div>
         </div>
       </div>
@@ -171,84 +167,28 @@
     <!-- 화면 아래로 뺀 조작 안내 문구 -->
     <div class="flex justify-center px-2">
       <div class="px-4 py-2 rounded-xl bg-slate-900/90 border border-cyan-500/40 text-xs sm:text-sm text-cyan-200 font-medium shadow-md text-center">
-        🖱️ 마우스/터치 또는 A/D로 패들 이동 | <kbd class="px-1.5 py-0.5 bg-slate-800 rounded text-cyan-300 font-mono text-xs">▲ 위쪽 화살표</kbd> 공 출발 | <kbd class="px-1.5 py-0.5 bg-slate-800 rounded text-cyan-300 font-mono text-xs">Space</kbd> 패들 부스터 이동!
+        🖱️ 마우스/터치 또는 A/D로 패들 이동 | <kbd class="px-1.5 py-0.5 bg-slate-800 rounded text-cyan-300 font-mono text-xs">▲</kbd> 공 출발 | <kbd class="px-1.5 py-0.5 bg-slate-800 rounded text-cyan-300 font-mono text-xs">Space</kbd> 부스터 | 반짝이는 벽돌에서 ⚡공복제·🛡️패들확장 아이템 드롭!
       </div>
     </div>
 
-    <!-- 액션 및 상점 / 랭킹 탭 섹션 -->
+    <!-- 랭킹 섹션 -->
     <section class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl shadow-black/30 flex flex-col gap-3.5">
-      <div class="flex items-center justify-end">
-        <div class="flex rounded-xl bg-slate-950 p-1 border border-slate-800 shrink-0">
-          <button id="tabShopBtn" type="button" class="px-3.5 py-2 rounded-lg text-xs font-extrabold bg-slate-800 text-cyan-300 shadow transition cursor-pointer">
-            ⚡ 장비 상점
-          </button>
-          <button id="tabRankingBtn" type="button" class="px-3.5 py-2 rounded-lg text-xs font-extrabold text-slate-400 hover:text-slate-200 transition cursor-pointer">
-            🏆 명예의 전당 (랭킹)
-          </button>
+      <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-950/90 border border-slate-800 rounded-xl px-3.5 py-2.5">
+        <div>
+          <div class="text-xs sm:text-sm font-extrabold text-cyan-300">🏆 벽돌깨기 명예의 전당 (실시간 통합 순위)</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">정렬 기준: 최고 획득 점수</div>
         </div>
+        <button id="refreshRankingBtn" type="button" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 transition active:scale-95 cursor-pointer">
+          🔄 새로고침
+        </button>
       </div>
 
-      <!-- 상점 패널 (업그레이드) -->
-      <div id="shopPanel" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-        <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-3 flex flex-col justify-between gap-2">
-          <div>
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-extrabold text-slate-100">🛡️ 와이드 패들</span>
-              <span id="paddleLevelBadge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-cyan-300">Lv.1</span>
-            </div>
-            <p class="text-[11px] text-slate-400 mt-1">패들(바)의 길이를 영구적으로 확장합니다.</p>
-          </div>
-          <button id="buyPaddleBtn" type="button" class="w-full py-2 rounded-lg text-xs font-extrabold bg-cyan-600 hover:bg-cyan-500 text-white transition active:scale-95 cursor-pointer">
-            업그레이드 (500 G)
-          </button>
-        </div>
-
-        <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-3 flex flex-col justify-between gap-2">
-          <div>
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-extrabold text-slate-100">💥 플라즈마 볼 파워</span>
-              <span id="powerLevelBadge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-amber-300">Lv.1</span>
-            </div>
-            <p class="text-[11px] text-slate-400 mt-1">벽돌을 격파할 때 주는 데미지와 점수를 높입니다.</p>
-          </div>
-          <button id="buyPowerBtn" type="button" class="w-full py-2 rounded-lg text-xs font-extrabold bg-amber-500 hover:bg-amber-400 text-slate-950 transition active:scale-95 cursor-pointer">
-            업그레이드 (800 G)
-          </button>
-        </div>
-
-        <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-3 flex flex-col justify-between gap-2">
-          <div>
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-extrabold text-slate-100">❤️ 여분 생명 충전</span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800 text-rose-300">하트 +1</span>
-            </div>
-            <p class="text-[11px] text-slate-400 mt-1">즉시 목숨을 1개 충전합니다.</p>
-          </div>
-          <button id="buyLifeBtn" type="button" class="w-full py-2 rounded-lg text-xs font-extrabold bg-rose-600 hover:bg-rose-500 text-white transition active:scale-95 cursor-pointer">
-            충전하기 (300 G)
-          </button>
-        </div>
+      <div id="myRankSummaryBox" class="rounded-xl bg-gradient-to-r from-sky-950/50 via-slate-950 to-slate-950 border border-sky-500/35 px-3.5 py-2.5 flex items-center justify-between text-xs">
+        <span class="text-slate-300 font-semibold">내 현재 순위:</span>
+        <span id="myRankDetailText" class="font-extrabold text-cyan-300">로그인 후 [서버저장] 시 순위에 등록됩니다</span>
       </div>
 
-      <!-- 랭킹 패널 -->
-      <div id="rankingPanel" class="hidden flex-col gap-3">
-        <div class="flex flex-wrap items-center justify-between gap-2 bg-slate-950/90 border border-slate-800 rounded-xl px-3.5 py-2.5">
-          <div>
-            <div class="text-xs sm:text-sm font-extrabold text-cyan-300">🏆 벽돌깨기 명예의 전당 (실시간 통합 순위)</div>
-            <div class="text-[11px] text-slate-400 mt-0.5">정렬 기준: 최고 획득 점수</div>
-          </div>
-          <button id="refreshRankingBtn" type="button" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 transition active:scale-95 cursor-pointer">
-            🔄 새로고침
-          </button>
-        </div>
-
-        <div id="myRankSummaryBox" class="rounded-xl bg-gradient-to-r from-sky-950/50 via-slate-950 to-slate-950 border border-sky-500/35 px-3.5 py-2.5 flex items-center justify-between text-xs">
-          <span class="text-slate-300 font-semibold">내 현재 순위:</span>
-          <span id="myRankDetailText" class="font-extrabold text-cyan-300">로그인 후 [서버저장] 시 순위에 등록됩니다</span>
-        </div>
-
-        <div id="rankingListContainer" class="flex flex-col gap-2 max-h-[380px] overflow-y-auto pr-1"></div>
-      </div>
+      <div id="rankingListContainer" class="flex flex-col gap-2 max-h-[380px] overflow-y-auto pr-1"></div>
     </section>
 
     <!-- 하단 바로가기 카드 ("벽돌깨기 바로가기 만들기" 설치가능 / 설치완료) -->
@@ -491,8 +431,6 @@
       const defaultState = () => ({
         highScore: 0,
         gold: 200,
-        paddleLevel: 1,
-        powerLevel: 1,
         soundEnabled: true,
         bgmEnabled: true,
         isVip: isAdminAccount(currentUsername)
@@ -506,8 +444,6 @@
         return {
           highScore: typeof parsed.highScore === 'number' && parsed.highScore >= 0 ? Math.floor(parsed.highScore) : base.highScore,
           gold: typeof parsed.gold === 'number' && parsed.gold >= 0 ? Math.floor(parsed.gold) : base.gold,
-          paddleLevel: typeof parsed.paddleLevel === 'number' && parsed.paddleLevel >= 1 ? Math.floor(parsed.paddleLevel) : base.paddleLevel,
-          powerLevel: typeof parsed.powerLevel === 'number' && parsed.powerLevel >= 1 ? Math.floor(parsed.powerLevel) : base.powerLevel,
           soundEnabled: typeof parsed.soundEnabled === 'boolean' ? parsed.soundEnabled : true,
           bgmEnabled: typeof parsed.bgmEnabled === 'boolean' ? parsed.bgmEnabled : true,
           isVip: isVip
@@ -692,12 +628,19 @@
       let score = 0;
       let stage = 1;
       let lives = 3;
-      let paddle = { x: 350, y: 400, width: 100, height: 14, dx: 0 };
-      let ball = { x: 400, y: 350, radius: 9, vx: 2.0, vy: -2.0, active: false };
+      let gameTime = 0; // seconds
+      let gameStartTs = 0;
+      const BASE_PADDLE_WIDTH = 100;
+      let paddle = { x: 350, y: 400, width: BASE_PADDLE_WIDTH, height: 14, dx: 0, baseWidth: BASE_PADDLE_WIDTH };
+      let balls = [];
+      let items = []; // falling power-ups
       let bricks = [];
       let particles = [];
       let bgStars = [];
       let keys = { left: false, right: false, space: false };
+      let paddleWidenTimer = 0; // remaining seconds of widen effect
+      const PADDLE_WIDEN_DURATION = 10;
+      const PADDLE_WIDEN_AMOUNT = 70;
 
       for (let i = 0; i < 35; i++) {
         bgStars.push({
@@ -706,6 +649,10 @@
           speed: 0.02 + Math.random() * 0.05,
           alpha: 0.2 + Math.random() * 0.6
         });
+      }
+
+      function createBall(x, y, vx, vy, active) {
+        return { x, y, radius: 9, vx: vx || 0, vy: vy || 0, active: !!active };
       }
 
       function initBricks() {
@@ -724,7 +671,9 @@
             const bx = c * (brickWidth + padding) + padding;
             const by = r * (brickHeight + padding) + topOffset;
             const hp = (rows - r > 2) ? 2 : 1;
-            bricks.push({ x: bx, y: by, w: brickWidth, h: brickHeight, hp: hp, maxHp: hp, color: colors[r % colors.length] });
+            // 일부 벽돌은 아이템 드롭 가능 표시
+            const canDrop = Math.random() < 0.22;
+            bricks.push({ x: bx, y: by, w: brickWidth, h: brickHeight, hp: hp, maxHp: hp, color: colors[r % colors.length], canDrop });
           }
         }
       }
@@ -734,7 +683,11 @@
         score = 0;
         stage = 1;
         lives = state.isVip ? 99 : 3;
-        ball.active = false;
+        gameTime = 0;
+        gameStartTs = performance.now();
+        paddleWidenTimer = 0;
+        items = [];
+        particles = [];
         initBricks();
         resetBallAndPaddle();
         gameRunning = true;
@@ -744,26 +697,82 @@
         updateUI();
       }
 
+      function getBasePaddleWidth() {
+        return state.isVip ? 160 : BASE_PADDLE_WIDTH;
+      }
+
+      function applyPaddleWidth() {
+        const base = getBasePaddleWidth();
+        if (paddleWidenTimer > 0) {
+          // 남은 시간에 따라 서서히 줄어듦 (마지막 2초는 빠르게 복귀)
+          const t = paddleWidenTimer;
+          const factor = t > 2 ? 1 : (t / 2);
+          paddle.width = base + PADDLE_WIDEN_AMOUNT * factor;
+        } else {
+          paddle.width = base;
+        }
+        paddle.baseWidth = base;
+        // 화면 밖으로 나가지 않도록 보정
+        paddle.x = Math.max(0, Math.min(canvasWidth - paddle.width, paddle.x));
+      }
+
       function resetBallAndPaddle() {
-        paddle.width = state.isVip ? 160 : Math.min(160, 90 + state.paddleLevel * 15);
+        paddleWidenTimer = 0;
+        applyPaddleWidth();
         paddle.x = (canvasWidth - paddle.width) / 2;
         paddle.y = canvasHeight - 30;
-        ball.x = paddle.x + paddle.width / 2;
-        ball.y = paddle.y - ball.radius - 2;
-        ball.vx = 0;
-        ball.vy = 0;
-        ball.active = false;
+        balls = [createBall(paddle.x + paddle.width / 2, paddle.y - 11, 0, 0, false)];
+        items = [];
       }
 
       function launchBall() {
-        if (!ball.active && gameRunning) {
+        if (!gameRunning) return;
+        const inactive = balls.filter(b => !b.active);
+        if (inactive.length === 0 && balls.length > 0) return;
+        const targets = inactive.length > 0 ? inactive : balls;
+        getAudioContext();
+        const baseSpeed = stage === 1 ? 2.0 : (3.2 + Math.min(2.5, stage * 0.3));
+        targets.forEach((ball, idx) => {
+          if (ball.active) return;
           ball.active = true;
-          getAudioContext();
-          const angle = (Math.random() * 0.4 - 0.2) * Math.PI;
-          // 첫판(stage 1)은 공 속도를 아주 부드럽고 느리게(2.0), 2판부터는 점진적으로 빨라짐
-          const baseSpeed = stage === 1 ? 2.0 : (3.2 + Math.min(2.5, stage * 0.3));
+          const angle = (Math.random() * 0.4 - 0.2) * Math.PI + (idx * 0.15);
           ball.vx = Math.sin(angle) * baseSpeed;
           ball.vy = -Math.cos(angle) * baseSpeed;
+        });
+      }
+
+      function spawnItem(x, y) {
+        const type = Math.random() < 0.5 ? 'multi' : 'widen';
+        items.push({
+          x, y,
+          w: 22, h: 14,
+          vy: 90 + Math.random() * 40,
+          type,
+          life: 8
+        });
+      }
+
+      function applyItem(type) {
+        if (type === 'multi') {
+          // 현재 활성 공을 기준으로 최대 2개까지 복제 (총 공 수 제한)
+          const activeBalls = balls.filter(b => b.active);
+          if (activeBalls.length === 0 || balls.length >= 5) {
+            showToast('⚡ 공 복제! (이미 최대)');
+            return;
+          }
+          const src = activeBalls[Math.floor(Math.random() * activeBalls.length)];
+          const angleOff = 0.35;
+          balls.push(createBall(src.x, src.y, src.vx * Math.cos(angleOff) - src.vy * Math.sin(angleOff), src.vx * Math.sin(angleOff) + src.vy * Math.cos(angleOff), true));
+          if (balls.length < 5 && Math.random() < 0.4) {
+            balls.push(createBall(src.x, src.y, src.vx * Math.cos(-angleOff) - src.vy * Math.sin(-angleOff), src.vx * Math.sin(-angleOff) + src.vy * Math.cos(-angleOff), true));
+          }
+          playSound('score');
+          showToast('⚡ 공이 복제되었습니다!');
+        } else if (type === 'widen') {
+          paddleWidenTimer = PADDLE_WIDEN_DURATION;
+          applyPaddleWidth();
+          playSound('score');
+          showToast('🛡️ 패들이 10초간 확장됩니다!');
         }
       }
 
@@ -775,7 +784,7 @@
           e.preventDefault();
           if (!gameRunning) {
             startNewGame();
-          } else if (!ball.active) {
+          } else {
             launchBall();
           }
         }
@@ -801,8 +810,10 @@
         const rect = canvas.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
         paddle.x = Math.max(0, Math.min(canvasWidth - paddle.width, mouseX - paddle.width / 2));
-        if (!ball.active && gameRunning) {
-          ball.x = paddle.x + paddle.width / 2;
+        if (gameRunning) {
+          balls.forEach(b => {
+            if (!b.active) b.x = paddle.x + paddle.width / 2;
+          });
         }
       });
 
@@ -819,17 +830,42 @@
           lastTime = timestamp;
 
           if (gameRunning) {
-            // 스페이스바 누르면 패들 속도 2배 부스터! (키보드 이동이 느린 점 보완)
+            // 게임 시간 업데이트
+            gameTime = (timestamp - gameStartTs) / 1000;
+            const timeEl = document.getElementById('timeDisplay');
+            if (timeEl) {
+              const s = Math.max(0, Math.floor(gameTime));
+              const m = Math.floor(s / 60);
+              const r = s % 60;
+              timeEl.textContent = String(m).padStart(2, '0') + ':' + String(r).padStart(2, '0');
+            }
+
+            // 패들 확장 타이머 감소
+            if (paddleWidenTimer > 0) {
+              paddleWidenTimer = Math.max(0, paddleWidenTimer - dt);
+              applyPaddleWidth();
+            }
+
+            // 스페이스바 부스터
             const speedMultiplier = keys.space ? 2.0 : 1.0;
             const pSpeed = 520 * speedMultiplier * dt;
 
             if (keys.left) paddle.x = Math.max(0, paddle.x - pSpeed);
             if (keys.right) paddle.x = Math.min(canvasWidth - paddle.width, paddle.x + pSpeed);
 
-            if (!ball.active) {
-              ball.x = paddle.x + paddle.width / 2;
-              ball.y = paddle.y - ball.radius - 2;
-            } else {
+            // 비활성 공은 패들에 붙임
+            balls.forEach(b => {
+              if (!b.active) {
+                b.x = paddle.x + paddle.width / 2;
+                b.y = paddle.y - b.radius - 2;
+              }
+            });
+
+            // 공 물리
+            for (let bi = balls.length - 1; bi >= 0; bi--) {
+              const ball = balls[bi];
+              if (!ball.active) continue;
+
               ball.x += ball.vx;
               ball.y += ball.vy;
 
@@ -837,22 +873,26 @@
               if (ball.x + ball.radius > canvasWidth) { ball.x = canvasWidth - ball.radius; ball.vx *= -1; playSound('hit'); }
               if (ball.y - ball.radius < 0) { ball.y = ball.radius; ball.vy *= -1; playSound('hit'); }
 
+              // 바닥 낙하
               if (ball.y - ball.radius > canvasHeight) {
-                lives--;
+                balls.splice(bi, 1);
                 playSound('hit');
-                if (lives <= 0 && !state.isVip) {
-                  gameRunning = false;
-                  stopBGM();
-                  if (score > state.highScore) {
-                    state.highScore = score;
-                    saveState(true);
+                if (balls.length === 0) {
+                  lives--;
+                  if (lives <= 0 && !state.isVip) {
+                    gameRunning = false;
+                    stopBGM();
+                    if (score > state.highScore) {
+                      state.highScore = score;
+                      saveState(true);
+                    }
+                    showGameOverOverlay();
+                  } else {
+                    resetBallAndPaddle();
                   }
-                  showGameOverOverlay();
-                } else {
-                  ball.active = false;
-                  resetBallAndPaddle();
+                  updateUI();
                 }
-                updateUI();
+                continue;
               }
 
               // 패들 충돌
@@ -860,12 +900,13 @@
                 ball.y + ball.radius >= paddle.y &&
                 ball.y - ball.radius <= paddle.y + paddle.height &&
                 ball.x >= paddle.x &&
-                ball.x <= paddle.x + paddle.width
+                ball.x <= paddle.x + paddle.width &&
+                ball.vy > 0
               ) {
                 ball.y = paddle.y - ball.radius;
                 playSound('hit');
                 const hitPos = (ball.x - (paddle.x + paddle.width / 2)) / (paddle.width / 2);
-                const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+                const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy) || 3;
                 const bounceAngle = hitPos * (Math.PI / 2.8);
                 ball.vx = Math.sin(bounceAngle) * speed;
                 ball.vy = -Math.cos(bounceAngle) * speed;
@@ -880,8 +921,17 @@
                   ball.y + ball.radius > b.y &&
                   ball.y - ball.radius < b.y + b.h
                 ) {
-                  ball.vy *= -1;
-                  b.hp -= state.isVip ? 2 : state.powerLevel;
+                  // 어느 면에서 부딪혔는지 대략 판단
+                  const overlapL = (ball.x + ball.radius) - b.x;
+                  const overlapR = (b.x + b.w) - (ball.x - ball.radius);
+                  const overlapT = (ball.y + ball.radius) - b.y;
+                  const overlapB = (b.y + b.h) - (ball.y - ball.radius);
+                  const minOverlap = Math.min(overlapL, overlapR, overlapT, overlapB);
+                  if (minOverlap === overlapL || minOverlap === overlapR) ball.vx *= -1;
+                  else ball.vy *= -1;
+
+                  const dmg = state.isVip ? 2 : 1;
+                  b.hp -= dmg;
                   playSound('brick');
 
                   for (let p = 0; p < 7; p++) {
@@ -893,6 +943,7 @@
                   }
 
                   if (b.hp <= 0) {
+                    if (b.canDrop) spawnItem(b.x + b.w / 2, b.y + b.h / 2);
                     bricks.splice(i, 1);
                     const gainScore = 100 * stage;
                     score += state.isVip ? gainScore * 3 : gainScore;
@@ -912,6 +963,27 @@
                 }
               }
             }
+
+            // 아이템 낙하 & 패들 수집
+            for (let i = items.length - 1; i >= 0; i--) {
+              const it = items[i];
+              it.y += it.vy * dt;
+              it.life -= dt;
+              if (it.y > canvasHeight + 20 || it.life <= 0) {
+                items.splice(i, 1);
+                continue;
+              }
+              // 패들과 충돌
+              if (
+                it.y + it.h >= paddle.y &&
+                it.y <= paddle.y + paddle.height &&
+                it.x + it.w / 2 >= paddle.x &&
+                it.x - it.w / 2 <= paddle.x + paddle.width
+              ) {
+                applyItem(it.type);
+                items.splice(i, 1);
+              }
+            }
           }
 
           // 파티클 업데이트
@@ -921,10 +993,9 @@
             if (pt.life <= 0) { particles.splice(i, 1); continue; }
           }
 
-          // 깔삼한 네온 캔버스 렌더링
+          // 렌더링
           ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-          // 배경 그라데이션 및 별 이펙트
           const bgGrad = ctx.createRadialGradient(canvasWidth / 2, canvasHeight / 2, 20, canvasWidth / 2, canvasHeight / 2, canvasWidth * 0.75);
           bgGrad.addColorStop(0, '#090d16');
           bgGrad.addColorStop(1, '#020617');
@@ -938,7 +1009,6 @@
             ctx.beginPath(); ctx.arc(s.x * canvasWidth, s.y * canvasHeight, s.size, 0, Math.PI * 2); ctx.fill();
           });
 
-          // 네온 그리드
           ctx.strokeStyle = 'rgba(14, 165, 233, 0.08)';
           ctx.lineWidth = 1;
           for (let x = 0; x < canvasWidth; x += 40) {
@@ -953,6 +1023,32 @@
             ctx.fillStyle = b.color;
             ctx.beginPath(); ctx.roundRect(b.x, b.y, b.w, b.h, 5); ctx.fill();
             ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = 1; ctx.stroke();
+            // 아이템 드롭 가능 벽돌 표시
+            if (b.canDrop) {
+              ctx.fillStyle = 'rgba(255,255,255,0.35)';
+              ctx.beginPath(); ctx.arc(b.x + b.w / 2, b.y + b.h / 2, 3, 0, Math.PI * 2); ctx.fill();
+            }
+            ctx.restore();
+          });
+
+          // 아이템
+          items.forEach(it => {
+            ctx.save();
+            if (it.type === 'multi') {
+              ctx.shadowColor = '#fbbf24';
+              ctx.shadowBlur = 14;
+              ctx.fillStyle = '#f59e0b';
+            } else {
+              ctx.shadowColor = '#22d3ee';
+              ctx.shadowBlur = 14;
+              ctx.fillStyle = '#06b6d4';
+            }
+            ctx.beginPath(); ctx.roundRect(it.x - it.w / 2, it.y, it.w, it.h, 4); ctx.fill();
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 10px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(it.type === 'multi' ? '⚡' : '🛡️', it.x, it.y + it.h / 2);
             ctx.restore();
           });
 
@@ -967,24 +1063,32 @@
 
           // 패들
           ctx.save();
-          ctx.shadowColor = '#06b6d4';
-          ctx.shadowBlur = 18;
+          ctx.shadowColor = paddleWidenTimer > 0 ? '#a855f7' : '#06b6d4';
+          ctx.shadowBlur = paddleWidenTimer > 0 ? 24 : 18;
           const paddleGrad = ctx.createLinearGradient(paddle.x, paddle.y, paddle.x, paddle.y + paddle.height);
-          paddleGrad.addColorStop(0, '#22d3ee');
-          paddleGrad.addColorStop(1, '#0284c7');
+          if (paddleWidenTimer > 0) {
+            paddleGrad.addColorStop(0, '#e879f9');
+            paddleGrad.addColorStop(1, '#7c3aed');
+          } else {
+            paddleGrad.addColorStop(0, '#22d3ee');
+            paddleGrad.addColorStop(1, '#0284c7');
+          }
           ctx.fillStyle = paddleGrad;
           ctx.beginPath(); ctx.roundRect(paddle.x, paddle.y, paddle.width, paddle.height, 8); ctx.fill();
-          ctx.strokeStyle = '#a5f3fc'; ctx.lineWidth = 1.8; ctx.stroke();
+          ctx.strokeStyle = paddleWidenTimer > 0 ? '#f5d0fe' : '#a5f3fc';
+          ctx.lineWidth = 1.8; ctx.stroke();
           ctx.restore();
 
-          // 공
-          ctx.save();
-          ctx.shadowColor = '#f43f5e';
-          ctx.shadowBlur = 20;
-          ctx.fillStyle = '#fb7185';
-          ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2); ctx.fill();
-          ctx.strokeStyle = '#fff1f2'; ctx.lineWidth = 2.5; ctx.stroke();
-          ctx.restore();
+          // 공들
+          balls.forEach(ball => {
+            ctx.save();
+            ctx.shadowColor = '#f43f5e';
+            ctx.shadowBlur = 20;
+            ctx.fillStyle = '#fb7185';
+            ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = '#fff1f2'; ctx.lineWidth = 2.5; ctx.stroke();
+            ctx.restore();
+          });
 
         } catch (err) {}
 
@@ -1009,16 +1113,20 @@
 
       document.getElementById('overlayActionBtn').addEventListener('click', () => {
         if (!gameRunning && bricks.length === 0) {
+          // 스테이지 클리어 후 다음 스테이지
           initBricks();
+          resetBallAndPaddle();
+          gameRunning = true;
+          if (state.bgmEnabled) startBGM();
         } else if (!gameRunning && lives <= 0) {
-          score = 0;
-          stage = 1;
-          lives = state.isVip ? 99 : 3;
-          initBricks();
+          // 게임 오버 후 재시작
+          startNewGame();
+          return;
+        } else {
+          resetBallAndPaddle();
+          gameRunning = true;
+          if (state.bgmEnabled) startBGM();
         }
-        resetBallAndPaddle();
-        gameRunning = true;
-        if (state.bgmEnabled) startBGM();
         document.getElementById('gameOverlay').classList.add('opacity-0', 'pointer-events-none');
         updateUI();
       });
@@ -1049,58 +1157,6 @@
           stopBGM();
           showToast('🔇 배경음 OFF');
         }
-      });
-
-      // 상점 업그레이드
-      document.getElementById('buyPaddleBtn').addEventListener('click', () => {
-        const cost = state.paddleLevel * 300;
-        if (state.gold < cost) { showToast('골드가 부족합니다!'); return; }
-        state.gold -= cost;
-        state.paddleLevel++;
-        saveState(true);
-        updateUI();
-        showToast('🛡️ 패들 길이가 확장되었습니다!');
-      });
-
-      document.getElementById('buyPowerBtn').addEventListener('click', () => {
-        const cost = state.powerLevel * 500;
-        if (state.gold < cost) { showToast('골드가 부족합니다!'); return; }
-        state.gold -= cost;
-        state.powerLevel++;
-        saveState(true);
-        updateUI();
-        showToast('💥 공 파워가 강화되었습니다!');
-      });
-
-      document.getElementById('buyLifeBtn').addEventListener('click', () => {
-        const cost = 300;
-        if (state.gold < cost) { showToast('골드가 부족합니다!'); return; }
-        state.gold -= cost;
-        lives++;
-        saveState(true);
-        updateUI();
-        showToast('❤️ 생명이 1개 충전되었습니다!');
-      });
-
-      // 탭 전환 (상점 vs 랭킹)
-      const tabShopBtn = document.getElementById('tabShopBtn');
-      const tabRankingBtn = document.getElementById('tabRankingBtn');
-      const shopPanel = document.getElementById('shopPanel');
-      const rankingPanel = document.getElementById('rankingPanel');
-
-      tabShopBtn.addEventListener('click', () => {
-        tabShopBtn.className = 'px-3.5 py-2 rounded-lg text-xs font-extrabold bg-slate-800 text-cyan-300 shadow transition cursor-pointer';
-        tabRankingBtn.className = 'px-3.5 py-2 rounded-lg text-xs font-extrabold text-slate-400 hover:text-slate-200 transition cursor-pointer';
-        shopPanel.classList.remove('hidden'); shopPanel.classList.add('grid');
-        rankingPanel.classList.add('hidden'); rankingPanel.classList.remove('flex');
-      });
-
-      tabRankingBtn.addEventListener('click', () => {
-        tabRankingBtn.className = 'px-3.5 py-2 rounded-lg text-xs font-extrabold bg-slate-800 text-cyan-300 shadow transition cursor-pointer';
-        tabShopBtn.className = 'px-3.5 py-2 rounded-lg text-xs font-extrabold text-slate-400 hover:text-slate-200 transition cursor-pointer';
-        rankingPanel.classList.remove('hidden'); rankingPanel.classList.add('flex');
-        shopPanel.classList.add('hidden'); shopPanel.classList.remove('grid');
-        fetchAndRenderRanking();
       });
 
       document.getElementById('refreshRankingBtn').addEventListener('click', fetchAndRenderRanking);
@@ -1270,17 +1326,20 @@
         }
       }
 
+      function formatTime(sec) {
+        const s = Math.max(0, Math.floor(sec));
+        const m = Math.floor(s / 60);
+        const r = s % 60;
+        return String(m).padStart(2, '0') + ':' + String(r).padStart(2, '0');
+      }
+
       function updateUI() {
         document.getElementById('goldDisplay').textContent = formatNumber(state.gold);
         document.getElementById('scoreDisplay').textContent = `점수: ${score.toLocaleString()} 점`;
         document.getElementById('scoreBadge').textContent = `STAGE ${stage}`;
         document.getElementById('livesDisplay').textContent = state.isVip ? '👑 무한하트' : '❤️'.repeat(Math.max(0, lives));
-        document.getElementById('powerDisplay').textContent = state.isVip ? 'MAX 플라즈마' : `Lv.${state.powerLevel}`;
-        document.getElementById('paddleLevelBadge').textContent = `Lv.${state.paddleLevel}`;
-        document.getElementById('powerLevelBadge').textContent = `Lv.${state.powerLevel}`;
-        document.getElementById('paddleDisplay').textContent = state.isVip ? '최장 패들' : `Lv.${state.paddleLevel}`;
-        document.getElementById('buyPaddleBtn').textContent = `업그레이드 (${formatNumber(state.paddleLevel * 300)} G)`;
-        document.getElementById('buyPowerBtn').textContent = `업그레이드 (${formatNumber(state.powerLevel * 500)} G)`;
+        const timeEl = document.getElementById('timeDisplay');
+        if (timeEl) timeEl.textContent = formatTime(gameTime);
 
         const vipLabel = document.getElementById('vipHeaderBtnLabel');
         vipLabel.textContent = state.isVip ? 'VIP 적용중' : 'VIP';
@@ -1290,7 +1349,7 @@
         const bgmBtn = document.getElementById('bgmToggleBtn');
         bgmBtn.textContent = state.bgmEnabled ? '🎵 배경음 ON' : '🔇 배경음 OFF';
 
-        updateAuthHeaderURL = updateAuthHeaderUI();
+        updateAuthHeaderUI();
       }
 
       function formatNumber(num) {
@@ -1321,7 +1380,14 @@
       });
       document.getElementById('resetConfirmBtn').addEventListener('click', () => {
         state = defaultState();
-        score = 0; stage = 1; lives = 3;
+        score = 0; stage = 1; lives = 3; gameTime = 0;
+        paddleWidenTimer = 0; items = []; particles = [];
+        gameRunning = false; stopBGM();
+        initBricks(); resetBallAndPaddle();
+        document.getElementById('gameOverlay').classList.remove('opacity-0', 'pointer-events-none');
+        document.getElementById('overlayTitle').textContent = '벽돌깨기 아레나';
+        document.getElementById('overlaySub').textContent = '상단 [게임 시작] 버튼을 누르거나 [▲ 위쪽 화살표]를 눌러 시작하세요!';
+        document.getElementById('overlayActionBtn').textContent = '게임 시작하기';
         saveState(true); updateUI();
         resetModal.classList.add('hidden'); resetModal.classList.remove('flex');
         showToast('🔄 모든 아케이드 기록이 초기화되었습니다.');
@@ -1333,6 +1399,7 @@
         if (authToken) await loadFromServer();
         initBricks();
         resetBallAndPaddle();
+        fetchAndRenderRanking();
         requestAnimationFrame(gameLoop);
       };
     })();
